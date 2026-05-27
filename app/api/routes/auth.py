@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
+from app.api.deps import get_current_user
 from app.db.database import get_session
 from app.models.user import User
 from app.schemas.user import UserResponse, UserLogin, UserCreate
@@ -57,3 +58,7 @@ def login(data: UserLogin, session: Session = Depends(get_session)):
     )
 
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.get("/me")
+def me(current_user: User = Depends(get_current_user)):
+    return current_user
