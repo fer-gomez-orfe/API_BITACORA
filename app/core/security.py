@@ -1,8 +1,10 @@
 from pwdlib import PasswordHash
 import jwt
 from datetime import datetime, timedelta
+from app.core.config import SECRET_KEY
 
-SECRET_KEY = "super-secret-key"
+
+
 ALGORITHM = "HS256"
 
 pwd_context = PasswordHash.recommended()

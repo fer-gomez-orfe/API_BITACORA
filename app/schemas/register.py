@@ -1,3 +1,6 @@
+from datetime import datetime
+from typing import Optional
+
 from sqlmodel import SQLModel
 
 class UserInfo(SQLModel):
@@ -6,21 +9,21 @@ class UserInfo(SQLModel):
 
 class VehicleInfo(SQLModel):
     id: int
-    name: str
+    model: str
     placas: str
 
 class RegisterResponse(SQLModel):
     id: int
     user: UserInfo
     vehicle: VehicleInfo
-    date_out: str
-    date_in: str
+    date_out: datetime
+    date_in: Optional[datetime] = None
     km_start: int
-    km_end: int
+    km_end: Optional[int] = None
     motive: str
     gas_level: str
     observations_start: str
-    observations_end: str
+    observations_end: Optional[str] = None
 
 class RegisterOut(SQLModel):
     vehicle_id: int

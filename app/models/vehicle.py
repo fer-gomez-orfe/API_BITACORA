@@ -1,7 +1,5 @@
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
-
-from app.models.register import RegisterUse
+from typing import Optional, List
 
 class Vehicle(SQLModel, table=True):
     __tablename__ = "vehicles"
@@ -11,4 +9,4 @@ class Vehicle(SQLModel, table=True):
     placas: str
     vin: str
 
-    registers: list["RegisterUse"] = Relationship(back_populates="vehicle")
+    registers: List["RegisterUse"] = Relationship(back_populates="vehicle")

@@ -1,7 +1,5 @@
 from sqlmodel import SQLModel, Field, Relationship
-from typing import Optional
-
-from app.models.register import RegisterUse
+from typing import Optional, List
 
 class User(SQLModel, table=True):
     __tablename__ = "users"
@@ -9,4 +7,5 @@ class User(SQLModel, table=True):
     fullname: str
     username: str = Field(index=True, unique=True)
     password_hash: str
-    registers: list["RegisterUse"] = Relationship(back_populates="user")
+    #Relacion con registros de uso de vehiculos que ha realizado el usuario 
+    registers: List["RegisterUse"] = Relationship(back_populates="user")

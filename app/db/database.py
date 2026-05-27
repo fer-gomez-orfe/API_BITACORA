@@ -1,9 +1,7 @@
 from sqlmodel import SQLModel, create_engine, Session
+from app.core.config import DATABASE_URL
 
-sqlite_file_name = "database.db"
-sqlite_url = f"sqlite:///{sqlite_file_name}"
-
-engine = create_engine(sqlite_url, echo=True)
+engine = create_engine(DATABASE_URL, echo=True)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
