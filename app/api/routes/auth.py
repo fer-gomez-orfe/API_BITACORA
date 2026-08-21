@@ -61,4 +61,4 @@ def login(data: UserLogin, session: Session = Depends(get_session)):
 
 @router.get("/me")
 def me(current_user: User = Depends(get_current_user)):
-    return current_user
+    return UserResponse.model_validate(current_user)

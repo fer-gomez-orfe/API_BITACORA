@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from app.db.database import get_session
 from app.models.register import RegisterUse
 from app.models.vehicle import Vehicle
-from app.schemas.vehicle import VehicleCreate, VehicleResponse
+from app.schemas.vehicle import VehicleCreate, VehicleResponse, VehicleResponseWithStatus
 
 router =  APIRouter(
     prefix="/vehicles",
@@ -26,12 +26,42 @@ def create_vehicle(data: VehicleCreate, session: Session = Depends(get_session))
 
     return vehicle
 
-@router.get("/", response_model=list[VehicleResponse])
+@router.get("/", response_model=list[VehicleResponseWithStatus])
 def get_vehicles(session: Session = Depends(get_session)):
 
     vehicles = session.exec(
         select(Vehicle)
     ).all()
+
+    actives = session.exec(
+        select(RegisterUse.vehicle_id).where(
+            RegisterUse.date_in == None
+        )
+    ).all()
+
+    response = []
+    
+    for vehicle in vehicles:
+        
+        response.append(
+            VehicleResponseWithStatus(
+                id = vehicle.id,
+                model = vehicle.model,
+                placas = vehicle.placas,
+                year = vehicle.year,
+                vin = vehicle.vin,
+                status = "IN_USE" if vehicle.id in actives else "AVAILABLE"
+            )
+        )
+    
+    return response
+
+
+
+
+
+
+
 
     return vehicles
 

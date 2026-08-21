@@ -13,3 +13,6 @@ class VehicleResponse(SQLModel):
     year: int
     vin: str
 
+class VehicleResponseWithStatus(VehicleResponse):
+    status: str
+
